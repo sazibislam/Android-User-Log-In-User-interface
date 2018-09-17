@@ -4,4 +4,11 @@ I am here using animation. More specifically I am using gif images.
 The gif image quality may poor but u can easly replace it from @drawable folder.
 replace the gif images accordingly your high quality gif images. the mechanism is same. Enjoy. 
 
+Email Me>> sazibislam1@gmail.com
+
+git clone>>
+git@github.com:sazibislam/Android-User-Log-In-User-interface.git
+
+
+
 
