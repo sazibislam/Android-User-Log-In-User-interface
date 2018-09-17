@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -35,6 +36,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
 
     EditText pass, username;
+    TextView mTextView;
     Button mShowPass, mSubmitBtn;
     ImageView mGifIv, mHabiIv, mChatIv, mPawIv;
     String mBaseUrl = "127.0.0.1/demo.php",
@@ -67,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mChatIv = (ImageView) findViewById(R.id.chat_image_view);
         mPawIv = (ImageView) findViewById(R.id.paw_image_view);
 
+        mTextView= (TextView)findViewById(R.id.textView);
+
         mShowPass = (Button) findViewById(R.id.show_btn);
         mSubmitBtn = (Button) findViewById(R.id.submit_btn);
 
@@ -75,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mHabiIv.setOnClickListener(this);
         mChatIv.setOnClickListener(this);
         mPawIv.setOnClickListener(this);
+        mTextView.setOnClickListener(this);
 
         username.setOnTouchListener(this);
         pass.setOnTouchListener(this);
@@ -111,6 +116,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         progressDialog.setMessage("Authenticating...");
         progressDialog.show();
 
+
+        //for testing purpose
+        startActivity(new Intent(MainActivity.this, SignupActivity.class));
+
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 mBaseUrl,
                 new Response.Listener<String>() {
@@ -119,27 +128,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         if (response != null) {
 
-                            //todo check login status code and the log in
+                            if (response.equals("failure")) {
 
-                            onLoginSuccess();
-                            //Toast.makeText(MainActivity.this, "Login Success!", Toast.LENGTH_SHORT).show();
+                                onLoginFailed();
 
-                        } else {
-                            //todo do some thing
 
-                            try {
-                                JSONObject jsonObject = (JSONObject) new JSONTokener(response).nextValue();
+                            } else {
 
-                               /* loginStatus(true);
-                                onLoginSuccess();
-                                progressDialog.dismiss();
-                                startActivity(new Intent(MainActivity.this, SomeActivity.class));
-                                finish();*/
+                                //todo do some thing
 
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                                try {
+                                    JSONObject jsonObject = (JSONObject) new JSONTokener(response).nextValue();
+
+
+                                    if ((jsonObject.get("status")).equals("ok")) {
+
+
+
+                                        onLoginSuccess();
+
+                                        progressDialog.dismiss();
+                                        startActivity(new Intent(MainActivity.this, SignupActivity.class));
+                                        finish();
+                                    }
+
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+
                             }
 
+                        } else {
+
+                            loginStatus(false);
+                            onLoginFailed();
+                            finish();
 
                         }
 
@@ -293,6 +318,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     //loginStatus(false);
                 }
                 break;
+
+
+            case R.id.textView:
+                startActivity(new Intent(MainActivity.this, SignupActivity.class));
+                break;
+
 
             default:
                 //
