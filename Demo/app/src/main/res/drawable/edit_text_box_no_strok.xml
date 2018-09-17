@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/listview_background_shape_edittext">
+    <!--<stroke
+        android:width=".50dip"        />
+        &lt;!&ndash;android:color="@color/black"&ndash;&gt;
+        />-->
+    <padding
+        android:bottom="2.0dip"
+        android:left="2.0dip"
+        android:right="2.0dip"
+        android:top="2.0dip" />
+    <corners android:radius="10.0dip" />
+    <solid android:color="@android:color/white"/>
+</shape>
